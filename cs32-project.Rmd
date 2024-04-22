@@ -9,7 +9,7 @@ output:
 This project consists of a comprehensive comparison of execution time and memory use in Python, R for computational operations common in data science, namely generic loop and vectorized operations, matrix multiplication and inversion, and some popular computationally heavy statistical and ML algorithms.
 
 
-## Why R and Python
+#### Why R and Python
 
 R and Python are arguably the two most popular open-source programming language used in data science. Python is also widely outside for programming outside data science and ranks first in many popularity indices like the TIOBE index. Its popularity in data science is mainly due to its extensive ecosystem of libraries contributed by the wide programming community, such as NumPy, pandas, and SciPy, which provide data manipulation, analysis, and visualization. Python's ecosystem also has libraries beyond data science, such as for web development like Django and Flask and natural language processing like NLTK and spaCy. Python has a user-friendly syntax and extensive documentation on GitHub and is particularly popular in the data science industry and in the academic machine learning community. Python libraries are typically built in C or C++ and provide efficient implementations of most popular data science algorithms while keeping the code simple and readable.
 
@@ -18,7 +18,7 @@ R is a programming language designed specifically for statistical computing and 
 
 Other popular high-level programming languages in data science include Java and the relative newcomer Julia, and common proprietary programming languages include SAS, Stata, and MATLAB.
 
-# Setup
+#### Setup
 
 For each algorithm, I measure execution time and memory use using the benchmark package in R and the time and profile libraries in Python. The algorithms were meant to be written in a way that is as structurally similar as possible in both languages, but the implementations of base functions vary greatly between the two languages. Ultimately, this is what makes the comparison interesting since there can be great differences in execution time for similar operations, but it also means that an algorithm can be poorly optimized in a language and artificially seem much faster in the other. For instance, people often criticize the speed of loops in R and my tests agree with this criticism, but these operations can almost always be made much faster by using vectorized operations.
 
@@ -31,7 +31,7 @@ The following algorithms were tested: a simple loop and a vectorized implementat
 
 # Comparison
 
-## Loop operations
+#### Loop operations
 
 This is fake data.
 
@@ -56,13 +56,13 @@ p
 
 # Discussion
 
-## Speed depending on the machine
+#### Speed depending on the machine
 
-## What does memory usage really mean and how can we measure it?
+#### What does memory usage really mean and how can we measure it?
 
-## Other considerations than speed and memory
+#### Other considerations than speed and memory
 
-## My experience using interactive visualization and a website
+#### My experience using interactive visualization and a website
 
 # References
 
