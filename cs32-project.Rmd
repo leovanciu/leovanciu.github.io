@@ -3,6 +3,7 @@ title: "Computational Performance Comparison"
 output: 
   html_document
 ---
+<a href='https://leovanciu.github.io/' class='btn btn-primary'>Back to Home</a>
 
 # Introduction
 
