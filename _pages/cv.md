@@ -11,12 +11,14 @@ redirect_from:
 
 Education
 ======
-* A.M. in Statistics, Harvard University, Expected 2026
-* A.B. in Mathematics & Statistics, Harvard University, Expected 2026
+* (Expected) A.M. in Statistics, Harvard University, Expected 2026
+* (Expected) A.B. in Mathematics & Statistics, Harvard University, Expected 2026
 * Diploma of College Studies in Honours Health Sciences, Marianopolis College, 2022
 
 Teaching experience
 ======
+* Fall 2024 (upcoming): Teaching Fellow for Graduate Probability (Stat 210)
+
 * Spring 2024: Teaching Fellow for Introduction to Statistical Inference (Stat 111)
 
 * Fall 2023: Teaching Fellow for Introduction to Probability (Stat 110)
