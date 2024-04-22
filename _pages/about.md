@@ -7,4 +7,4 @@ redirect_from:
   - /about.html
 ---
 
-Welcome to my academic website. To see my final project for CS 32, go to the Projects page.
+Welcome to my academic website. To see my final project for CS 32, go to the Project page.
