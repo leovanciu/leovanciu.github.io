@@ -12,7 +12,7 @@ redirect_from:
 Education
 ======
 * A.M. in Statistics, Harvard University, Expected 2026
-* A.B. in Statistics & Mathematics, Harvard University, Expected 2026
+* A.B. in Mathematics & Statistics, Harvard University, Expected 2026
 * Diploma of College Studies in Honours Health Sciences, Marianopolis College, 2022
 
 Teaching experience
