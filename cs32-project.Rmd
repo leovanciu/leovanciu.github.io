@@ -1,70 +1,713 @@
 ---
-title: "Computational Performance Comparison"
+title: "Computational performance of R and Python for data science"
 output: 
-  html_document
+  html_document:
+    code_download: true
+    toc: true
+    toc_float: true
+    toc_collapsed: true
+    toc_depth: 3
+    number_sections: true
+    theme: lumen
 ---
 <a href='https://leovanciu.github.io/' class='btn btn-primary'>Back to Home</a>
 
 # Introduction
 
-This project consists of a comprehensive comparison of execution time and memory use in Python, R for computational operations common in data science, namely generic loop and vectorized operations, matrix multiplication and inversion, and some popular computationally heavy statistical and ML algorithms.
+This project consists of a comprehensive comparison of execution time and Time use in Python, R for computational operations common in data science, namely generic loop and vectorized operations, matrix multiplication and inversion, and some popular computationally heavy statistical and ML algorithms.
 
 
-#### Why R and Python
+## Why R and Python
 
-R and Python are arguably the two most popular open-source programming language used in data science. Python is also widely outside for programming outside data science and ranks first in many popularity indices like the TIOBE index. Its popularity in data science is mainly due to its extensive ecosystem of libraries contributed by the wide programming community, such as NumPy, pandas, and SciPy, which provide data manipulation, analysis, and visualization. Python's ecosystem also has libraries beyond data science, such as for web development like Django and Flask and natural language processing like NLTK and spaCy. Python has a user-friendly syntax and extensive documentation on GitHub and is particularly popular in the data science industry and in the academic machine learning community. Python libraries are typically built in C or C++ and provide efficient implementations of most popular data science algorithms while keeping the code simple and readable.
+R and Python are arguably the two most popular open-source programming language used in data science. Both are considered high-level programming languages with many abstractions built to feature simple syntax.
 
-R is a programming language designed specifically for statistical computing and graphics. Likewise to Python, R's main strength is its extensive collection of packages contributed by the community of users, which mainly consists of statisticians and researchers. It features built-in functions for popular statistical algorithms like linear regression as well as flexible graphical capabilities, and there are many high-quality visualization tools through packages like ggplot2 and plotly. R's syntax is tailored for statistical analysis, using vectors as its data structure for storing and manipulating data and including many built-in reproducibility features. Its packages are also typically implemented in C or C++.
+Python is also widely outside for programming outside data science and ranks first in many popularity indices like the TIOBE index. Its popularity in data science can be explained by its extensive ecosystem of open-source libraries contributed by the programming community, such as NumPy, pandas, scikit-learn which provide flexible algorithms for data manipulation, analysis, and visualization. Python's ecosystem has many libraries beyond data science, such as for we
+
+b development and natural language processing. Python has extensive documentation on GitHub. Compared to R, it is more popular in the data science industry and in the academic machine learning community. Python libraries are typically built in C/C++ or Fortran for efficient implementations.
+
+R is a programming language designed specifically for statistical computing and graphics. Like Python, R's main strength is its extensive collection of open-source packages contributed by the community of users, which mainly consists of statisticians and researchers. It features built-in functions for popular statistical algorithms like linear regression as well as flexible graphical capabilities. There are also many packages for complex data manipulation like the Tidyverse collection which includes dplyr and the high-quality visualization tool ggplot2. R's syntax is tailored for statistical analysis, using vectors as its data structure for storing and manipulating data. It includes many built-in reproducibility features like setting a seed for pseudo-random number generators. Its packages are also typically implemented in C or C++.
 
 
-Other popular high-level programming languages in data science include Java and the relative newcomer Julia, and common proprietary programming languages include SAS, Stata, and MATLAB.
+Other popular high-level programming languages in data science include Java and relative newcomer Julia, and common proprietary programming languages include SAS, Stata, and MATLAB.
 
-#### Setup
+## Setup
 
-For each algorithm, I measure execution time and memory use using the benchmark package in R and the time and profile libraries in Python. The algorithms were meant to be written in a way that is as structurally similar as possible in both languages, but the implementations of base functions vary greatly between the two languages. Ultimately, this is what makes the comparison interesting since there can be great differences in execution time for similar operations, but it also means that an algorithm can be poorly optimized in a language and artificially seem much faster in the other. For instance, people often criticize the speed of loops in R and my tests agree with this criticism, but these operations can almost always be made much faster by using vectorized operations.
+For each algorithm, I measure execution time and Time use using the benchmark package in R and the time and profile libraries in Python. The algorithms were meant to be written in a way that is as structurally similar as possible in both languages, but the implementations of base functions vary greatly between the two languages. Ultimately, this is what makes the comparison interesting since there can be great differences in execution time for similar operations, but it also means that an algorithm can be poorly optimized in a language and artificially seem much faster in the other. For instance, people often criticize the speed of loops in R and my tests agree with this criticism, but these operations can almost always be made much faster by using vectorized operations.
 
-I simulated give datasets in R typically from a standard Normal distribution, with sample sizes varying $10^3$ to $10^7$. I ran scripts in R and Python on these simulated datasets and their execution time and memory use were recorded in CSV files. I used R markdown to generate this webpage, using the plotly package to generate interactive plots. I also included theoretical Big-O complexity of the algorithms based on the most simple form of the algorithm.
+I simulated give datasets in R typically from a standard Normal distribution, with sample sizes varying $10^3$ to $10^7$. I ran scripts in R and Python on these simulated datasets and their execution time and Time use were recorded in CSV files. I used R markdown to generate this webpage, using the plotly package to generate interactive plots. I also included theoretical Big-O complexity of the algorithms based on the most simple form of the algorithm.
 
 All code for the scripts is available in the GitHub repository and all code use to generate my website using the theme ... is available in the Github repository ...
 
 The following algorithms were tested: a simple loop and a vectorized implementation, matrix multiplication and inversion, linear regression, a bootstrap algorithm, and a SVM algorithm. When possible, I have implemented a simple version of these algorithms using only base functions in the language as well as a popular package/library. For instance, for linear regression I use the lm() function in R and the Scikit-Learn library in Python as well as an algorithm using only matrix multiplication and inversion. Of course, these two matrix operations are themselves algorithms with many different possible implementations that I do not know anything about and which are apparently active areas of research in computer science. I am somewhat biased since I mainly use R in my academic work and am more familiar with the most optimized packages in R rather than Python.
 
+In short, this project contained three phases, which are very representative of a typical data science project: 1) Simulating data, 2) Writing and running various algorithms, and 3) Analyzing the data.
+
+
 
 # Comparison
 
-#### Loop operations
+## Loop operations
 
-This is fake data.
+### Loop sums
 
-```{r performance-plot, echo=TRUE, message=FALSE, warning=FALSE}
+```plaintext
+Function loop_sum(n)
+    Initialize sum to 0
+    For i from 1 to n
+        sum <- sum + i
+    End For
+    Return sum
+End Function
+```
+
+The initialization step is O(1), a linear operation like a sum or a mean is also O(1), and by definition the loop is $O(n)$ which is the overall complexity of the algorithm. 
+
+Here is the code in Python
+
+
+and in R
+
+
+
+I include below the code used to generate interactive plots of execution time and memory usage with the plotly library in R. Note that the plot is in the log scale.
+
+
+```{r,message=FALSE}
 library(plotly)
+# Read data
+R <- read.csv("/Users/ancavanciupopescu/Desktop/Classes/CS 32/Final project/Results/Results_R.csv")
+python <- read.csv("/Users/ancavanciupopescu/Desktop/Classes/CS 32/Final project/Results/Results_python.csv")
+merged_data <- merge(R, python, by=c("Algorithm", "n"), suffixes = c("R", "python"))
+algorithm_names <- c('loop_sum','loop_geom_mean', 'vectorized_geom_mean', 'matrix_multiplication', 
+                 'matrix_inversion', 'linear_regression_package', 'linear_regression_base', 
+                 'bootstrap_package', 'bootstrap_base', 'svm_package', 'svm_base', 
+                 'Metropolis_Hastings', 'MCMC_stan')
 
-sample_sizes <- c(100, 1000, 10000, 100000)
-python_times <- sample_sizes/100
-r_times <- sqrt(sample_sizes)
-julia_times <- log(sample_sizes)
+# Compute Big-O complexity
+algos <- c("loop_sum") # We only plot one algorithm here but in other plots I have multiple algorithms
+n_values <- seq(2, 6, by = 0.1)
+O_n <- 10^n_values/10^4
+O_n_python_1 <- O_n*python[python$Algorithm == algos[1],]$Time[3] # The pre-factors are calibrated on n=10^4 of the observed times
+O_n_R_1 <- O_n*R[R$Algorithm == algos[1],]$Time[3]
 
-data <- data.frame(
-  SampleSize = rep(sample_sizes, each = 3),
-  Time = c(python_times, r_times, julia_times),
-  Language = factor(rep(c("Python", "R", "Julia"), times = 4))
-)
-
-p <- plot_ly(data, x = ~SampleSize, y = ~Time, color = ~Language, type = 'scatter', mode = 'lines+markers')
-p
+# Time plot
+plot_ly() %>%
+  add_trace(data = R[R$Algorithm == algos[1],], x = ~log(n, 10), y = ~Time, 
+            type = 'scatter', mode = 'lines+markers', name = 'R',
+            line = list(color = "blue", dash = 'solid'),
+            marker = list(color = "blue", symbol = 'circle')) %>%
+  add_trace(data = python[python$Algorithm == algos[1],], x = ~log(n, 10), y = ~Time, 
+            type = 'scatter', mode = 'lines+markers', name = 'loop_sum Python',
+            line = list(color = "red", dash = 'solid'),
+            marker = list(color = "red", symbol = 'dot')) %>%
+  add_trace(x = n_values, y = O_n_python_1, type = 'scatter', mode = 'lines',
+            name = 'O(n)', line = list(color = 'black', dash = 'dash')) %>%
+  add_trace(x = n_values, y = O_n_R_1, type = 'scatter', mode = 'lines',
+            name = 'O(n)', line = list(color = 'black', dash = 'dash'), showlegend = FALSE) %>%
+  layout(title = "Execution Time",
+         xaxis = list(title = "log(n)", tickmode = "array", tickvals = 0:6, ticktext = as.character(0:6)),
+         yaxis = list(title = "Time (s)"),
+         legend = list(title = "Legend", orientation = "h", x = 0.3, y = -0.2))
 ```
 
 
+```{r echo=FALSE}
+# Memory plot
+plot_ly() %>%
+  add_trace(data = R[R$Algorithm == algos[1],], x = ~log(n, 10), y = ~Memory, 
+            type = 'scatter', mode = 'lines+markers', name = 'loop_sum R',
+            line = list(color = "blue", dash = 'solid'),
+            marker = list(color = "blue", symbol = 'circle')) %>%
+  add_trace(data = python[python$Algorithm == algos[1],], x = ~log(n, 10), y = ~Memory, 
+            type = 'scatter', mode = 'lines+markers', name = 'loop_sum Python',
+            line = list(color = "red", dash = 'solid'),
+            marker = list(color = "red", symbol = 'dot')) %>%
+  layout(title = "Memory Usage",
+         xaxis = list(title = "log(n)", tickmode = "array", tickvals = 0:6, ticktext = as.character(0:6)),
+         yaxis = list(title = "Memory (MiB)"),
+         legend = list(title = "Legend", orientation = "h", x = 0.3, y = -0.2))
+```
+
+
+We see that loops in R run two to three times faster than in Pyton. We see that O(n) fits the data very well. Memory usage is not recorded in R, and it does not seem to scale considerably with $n$ in Python. This is a win for R, but it is well-known that loops are slow in both R and Python due to the many abstractions made by the programming languages. It is often suggested to vectorize operations, which can speed up loops considerably.
+
+### Vectorized operations
+
+
+Vectorized operations are still loops, but they are typically compiled directly in C or Fortran which is much faster than either R or Python. In addition, the operations are optimized for the CPU to perform multiple operations on the data. The computational complexity is theoretically still the same as a loop, but the pre-factor is reduced, and due to more efficient memory allocation it is possible for the order of execution time to be reduced as well. In the following plots, I compare the computation of the geometric mean computed as $\exp(\frac{1}{n} \sum_{i=1}^n \log y_i)$ through a loop and with a vectorized operation.
+
+
+```{r echo=FALSE}
+algos <- c("loop_geom_mean", "vectorized_geom_mean")
+plot_ly() %>%
+  add_trace(data = R[R$Algorithm == algos[1],], x = ~log(n, 10), y = ~Time, 
+            type = 'scatter', mode = 'lines+markers', name = 'loop_geom_mean R',
+            line = list(color = "blue", dash = 'solid'),
+            marker = list(color = "blue", symbol = 'circle')) %>%
+  add_trace(data = R[R$Algorithm == algos[2],], x = ~log(n, 10), y = ~Time, 
+            type = 'scatter', mode = 'lines+markers', name = 'vectorized_geom_mean R',
+            line = list(color = "blue", dash = 'dashdot'),
+            marker = list(color = "blue", symbol = 'square')) %>%
+  add_trace(data = python[python$Algorithm == algos[1],], x = ~log(n, 10), y = ~Time, 
+            type = 'scatter', mode = 'lines+markers', name = 'loop_geom_mean Python',
+            line = list(color = "red", dash = 'solid'),
+            marker = list(color = "red", symbol = 'dot')) %>%
+  add_trace(data = python[python$Algorithm == algos[2],], x = ~log(n, 10), y = ~Time, 
+            type = 'scatter', mode = 'lines+markers', name = 'vectorized_geom_mean Python',
+            line = list(color = "red", dash = 'dashdot'),
+            marker = list(color = "red", symbol = 'square')) %>%
+  layout(title = "Execution Time",
+         xaxis = list(title = "log(n)", tickmode = "array", tickvals = 0:6, ticktext = as.character(0:6)),
+         yaxis = list(title = "Time (s)"),
+         legend = list(title = "Legend", orientation = "h", x = 0.3, y = -0.2))
+
+plot_ly() %>%
+  add_trace(data = R[R$Algorithm == algos[1],], x = ~log(n, 10), y = ~Memory, 
+            type = 'scatter', mode = 'lines+markers', name = 'loop_geom_mean R',
+            line = list(color = "blue", dash = 'solid'),
+            marker = list(color = "blue", symbol = 'circle')) %>%
+  add_trace(data = R[R$Algorithm == algos[2],], x = ~log(n, 10), y = ~Memory, 
+            type = 'scatter', mode = 'lines+markers', name = 'vectorized_geom_mean R',
+            line = list(color = "blue", dash = 'dashdot'),
+            marker = list(color = "blue", symbol = 'square')) %>%
+  add_trace(data = python[python$Algorithm == algos[1],], x = ~log(n, 10), y = ~Memory, 
+            type = 'scatter', mode = 'lines+markers', name = 'loop_geom_mean Python',
+            line = list(color = "red", dash = 'solid'),
+            marker = list(color = "red", symbol = 'dot')) %>%
+  add_trace(data = python[python$Algorithm == algos[2],], x = ~log(n, 10), y = ~Memory, 
+            type = 'scatter', mode = 'lines+markers', name = 'vectorized_geom_mean Python',
+            line = list(color = "red", dash = 'dashdot'),
+            marker = list(color = "red", symbol = 'square')) %>%
+  layout(title = "Memory usage",
+         xaxis = list(title = "log(n)", tickmode = "array", tickvals = 0:6, ticktext = as.character(0:6)),
+         yaxis = list(title = "Memory (MiB)"),
+         legend = list(title = "Legend", orientation = "h", x = 0.3, y = -0.2))
+```
+
+We see that loops in Python and R are very slow compared to the vectorized operation.
+
+
+```{r}
+algos <- c("vectorized_geom_mean")
+n_values <- seq(2, 6, by = 0.1)
+O_n <- 10^n_values/10^4
+O_n_python_1 <- O_n*python[python$Algorithm == algos[1],]$Time[3]
+O_n_R_1 <- O_n*R[R$Algorithm == algos[1],]$Time[3]
+plot_ly() %>%
+  add_trace(data = R[R$Algorithm == algos[1],], x = ~log(n, 10), y = ~Time, 
+            type = 'scatter', mode = 'lines+markers', name = 'loop_geom_mean R',
+            line = list(color = "blue", dash = 'solid'),
+            marker = list(color = "blue", symbol = 'circle')) %>%
+  add_trace(data = python[python$Algorithm == algos[1],], x = ~log(n, 10), y = ~Time, 
+            type = 'scatter', mode = 'lines+markers', name = 'loop_geom_mean Python',
+            line = list(color = "red", dash = 'solid'),
+            marker = list(color = "red", symbol = 'dot')) %>%
+  add_trace(x = n_values, y = O_n_R_1, type = 'scatter', mode = 'lines',
+            name = 'O(n)', line = list(color = 'black', dash = 'dash')) %>%
+  layout(title = "Execution Time",
+         xaxis = list(title = "log(n)", tickmode = "array", tickvals = 0:6, ticktext = as.character(0:6)),
+         yaxis = list(title = "Time (s)"),
+         legend = list(title = "Legend", orientation = "h", x = 0.3, y = -0.2))
+```
+
+
+
+## Matrix operations
+### Matrix multiplication and inversion
+
+For each pair of row from $A$ and column from $B$, $n$ multiplications are performed. For each of the $n$ multiplications, there is an addition. This gives computational complexity $\mathcal{O}(n^3)$. Now, Python and R likely have a more efficient version through some smart algorithm. Likewise, finding the inverse through Gaussian elimination is $\mathcal{O}(n^3)$. However, the implementations in R and Python seem to scale linearly or even better with $n$. An important note is that memory also seems to increase linearly which may explain why the time is much better than the theoretical complexity.
+
+
+```{r echo=FALSE}
+algos <- c("matrix_multiplication", "matrix_inversion")
+O_n_python_1 <- O_n*python[python$Algorithm == algos[1],]$Time[3]
+O_n_R_1 <- O_n*R[R$Algorithm == algos[1],]$Time[3]
+O_n_python_2 <- O_n*python[python$Algorithm == algos[2],]$Time[3]
+O_n_R_2 <- O_n*R[R$Algorithm == algos[2],]$Time[3]
+plot_ly() %>%
+  add_trace(data = R[R$Algorithm == algos[1],], x = ~log(n, 10), y = ~Time, 
+            type = 'scatter', mode = 'lines+markers', name = 'matrix_multiplication R',
+            line = list(color = "blue", dash = 'solid'),
+            marker = list(color = "blue", symbol = 'circle')) %>%
+  add_trace(data = R[R$Algorithm == algos[2],], x = ~log(n, 10), y = ~Time, 
+            type = 'scatter', mode = 'lines+markers', name = 'matrix_inversion R',
+            line = list(color = "blue", dash = 'dashdot'),
+            marker = list(color = "blue", symbol = 'square')) %>%
+  add_trace(data = python[python$Algorithm == algos[1],], x = ~log(n, 10), y = ~Time, 
+            type = 'scatter', mode = 'lines+markers', name = 'matrix_multiplication Python',
+            line = list(color = "red", dash = 'solid'),
+            marker = list(color = "red", symbol = 'dot')) %>%
+  add_trace(data = python[python$Algorithm == algos[2],], x = ~log(n, 10), y = ~Time, 
+            type = 'scatter', mode = 'lines+markers', name = 'matrix_inversion Python',
+            line = list(color = "red", dash = 'dashdot'),
+            marker = list(color = "red", symbol = 'square')) %>%
+  add_trace(x = n_values, y = O_n_python_1, type = 'scatter', mode = 'lines',
+            name = 'O(n)', line = list(color = 'black', dash = 'dash')) %>%
+  layout(title = "Execution Time",
+         xaxis = list(title = "log(n)", tickmode = "array", tickvals = 0:6, ticktext = as.character(0:6)),
+         yaxis = list(title = "Time (s)"),
+         legend = list(title = "Legend", orientation = "h", x = 0.3, y = -0.2))
+plot_ly() %>%
+  add_trace(data = R[R$Algorithm == algos[1],], x = ~log(n, 10), y = ~Memory, 
+            type = 'scatter', mode = 'lines+markers', name = 'matrix_multiplication R',
+            line = list(color = "blue", dash = 'solid'),
+            marker = list(color = "blue", symbol = 'circle')) %>%
+  add_trace(data = R[R$Algorithm == algos[2],], x = ~log(n, 10), y = ~Memory, 
+            type = 'scatter', mode = 'lines+markers', name = 'matrix_inversion R',
+            line = list(color = "blue", dash = 'dashdot'),
+            marker = list(color = "blue", symbol = 'square')) %>%
+  add_trace(data = python[python$Algorithm == algos[1],], x = ~log(n, 10), y = ~Memory, 
+            type = 'scatter', mode = 'lines+markers', name = 'matrix_multiplication Python',
+            line = list(color = "red", dash = 'solid'),
+            marker = list(color = "red", symbol = 'dot')) %>%
+  add_trace(data = python[python$Algorithm == algos[2],], x = ~log(n, 10), y = ~Memory, 
+            type = 'scatter', mode = 'lines+markers', name = 'matrix_inversion Python',
+            line = list(color = "red", dash = 'dashdot'),
+            marker = list(color = "red", symbol = 'square')) %>%
+  layout(title = "Memory usage",
+         xaxis = list(title = "log(n)", tickmode = "array", tickvals = 0:6, ticktext = as.character(0:6)),
+         yaxis = list(title = "Memory (MiB)"),
+         legend = list(title = "Legend", orientation = "h", x = 0.3, y = -0.2))
+```
+
+
+
+Either $\mathcal{O}(n d^2)$ or $\mathcal{O}(d^3)$.
+
+
+## Linear regression
+Recall the OLS $\beta = (X^T X)^{-1} X^T y$
+
+
+
+```plaintext
+Function linear_regression(X, y)
+    n <- number of rows in X
+    p <- number of columns in X
+    
+    // Augment X with a column 1 to include an intercept
+    X_b <- concatenate([ones(n, 1), X], axis=1)
+    
+    // Compute the coefficients
+    beta_hat <- inverse(X_b.T @ X_b) @ (X_b.T @ y) 
+    
+    Return beta_hat
+End Function
+```
+The matrix augmentation operation is $O(n)$ since we are appending $n$ rows. The matrix multiplication and inversion are the dominating steps of this algorithm. As explained in the previous section on matrices, the matrix multiplication X_b.T @ X_b step is $O(n \times (p+1)^2)$ while the matrix inversion is $O((p+1)^3)$, although these matrix operations are likely implemented more efficiently in Python and R. The last step of multiplying the matrix inverse(X_b.T @ X_b) with the vector (X_b.T @ y) is $O((p+1)^2)$. Therefore, the overall complexity is $O(p^3)$ or $O(n \times (p+1)^2)$ depending on whether $p<<n$. In this case, since we keep $p=10$ and we increase $n$ to $n=10^6$, the dominating step is $O(n)$.
+
+
+```{r echo=FALSE}
+algos <- c("linear_regression_base", "linear_regression_package")
+O_n_python_1 <- O_n*python[python$Algorithm == algos[1],]$Time[3]
+O_n_R_1 <- O_n*R[R$Algorithm == algos[1],]$Time[3]
+O_n_python_2 <- O_n*python[python$Algorithm == algos[2],]$Time[3]
+O_n_R_2 <- O_n*R[R$Algorithm == algos[2],]$Time[3]
+plot_ly() %>%
+  add_trace(data = R[R$Algorithm == algos[1],], x = ~log(n, 10), y = ~Time, 
+            type = 'scatter', mode = 'lines+markers', name = 'linear_regression_scratch R',
+            line = list(color = "blue", dash = 'solid'),
+            marker = list(color = "blue", symbol = 'circle')) %>%
+  add_trace(data = R[R$Algorithm == algos[2],], x = ~log(n, 10), y = ~Time, 
+            type = 'scatter', mode = 'lines+markers', name = 'linear_regression_base R',
+            line = list(color = "blue", dash = 'dashdot'),
+            marker = list(color = "blue", symbol = 'square')) %>%
+  add_trace(data = python[python$Algorithm == algos[1],], x = ~log(n, 10), y = ~Time, 
+            type = 'scatter', mode = 'lines+markers', name = 'linear_regression_scratch Python',
+            line = list(color = "red", dash = 'solid'),
+            marker = list(color = "red", symbol = 'dot')) %>%
+  add_trace(data = python[python$Algorithm == algos[2],], x = ~log(n, 10), y = ~Time, 
+            type = 'scatter', mode = 'lines+markers', name = 'linear_regression_sklearn Python',
+            line = list(color = "red", dash = 'dashdot'),
+            marker = list(color = "red", symbol = 'square')) %>%
+    add_trace(x = n_values, y = O_n_R_1, type = 'scatter', mode = 'lines',
+            name = 'O(n)', line = list(color = 'black', dash = 'dash')) %>%
+  layout(title = "Execution Time",
+         xaxis = list(title = "log(n)", tickmode = "array", tickvals = 0:6, ticktext = as.character(0:6)),
+         yaxis = list(title = "Time (s)"),
+         legend = list(title = "Legend", orientation = "h", x = 0.3, y = -0.2))
+plot_ly() %>%
+  add_trace(data = R[R$Algorithm == algos[1],], x = ~log(n, 10), y = ~Memory, 
+            type = 'scatter', mode = 'lines+markers', name = 'linear_regression_scratch R',
+            line = list(color = "blue", dash = 'solid'),
+            marker = list(color = "blue", symbol = 'circle')) %>%
+  add_trace(data = R[R$Algorithm == algos[2],], x = ~log(n, 10), y = ~Memory, 
+            type = 'scatter', mode = 'lines+markers', name = 'linear_regression_base R',
+            line = list(color = "blue", dash = 'dashdot'),
+            marker = list(color = "blue", symbol = 'square')) %>%
+  add_trace(data = python[python$Algorithm == algos[1],], x = ~log(n, 10), y = ~Memory, 
+            type = 'scatter', mode = 'lines+markers', name = 'linear_regression_scratch Python',
+            line = list(color = "red", dash = 'solid'),
+            marker = list(color = "red", symbol = 'dot')) %>%
+  add_trace(data = python[python$Algorithm == algos[2],], x = ~log(n, 10), y = ~Memory, 
+            type = 'scatter', mode = 'lines+markers', name = 'linear_regression_sklearn Python',
+            line = list(color = "red", dash = 'dashdot'),
+            marker = list(color = "red", symbol = 'square')) %>%
+  layout(title = "Memory usage",
+         xaxis = list(title = "log(n)", tickmode = "array", tickvals = 0:6, ticktext = as.character(0:6)),
+         yaxis = list(title = "Memory (MiB)"),
+         legend = list(title = "Legend", orientation = "h", x = 0.3, y = -0.2))
+```
+
+
+
+## Bootstrap
+
+I expected computational complexity $\mathcal{O}(n \log (n))$, but Python blows up.
+
+```plaintext
+Function bootstrap(data, statistic, B, alpha)
+    n <- length of data
+    idx <- generate B sets of indices, each with n random integers between 0 and n-1
+    samples <- extract data elements based on idx
+    stat <- sort(statistic(samples))
+    lower_CI <- compute (100*(1-alpha)/2)th sample quantile
+    upper_CI <- compute (100*(1-(1-alpha)/2)th sample quantile
+    Return lower_CI, upper_CI
+End Function
+```
+
+The idx resampling step is $O(n \times B)$ and extracting the samples is also $O(n \times B)$. For a linear statistic like a sample mean, the statistic step is also $O(n \times B)$. The sorting step depends on the algorithm used, but the one used in Python is Timsort which has $O(B \log (B))$. After that, computing the two sample quantiles on the sorted data is $O(1)$. However, a potentially more efficient way of doing this step is using sample quantiles since we are only interested in two sample quantiles which may avoid sorting the entire dataset. Therefore, since we increase $B$ and keep $n=10^3$ fixed, the dominating step is the resampling/extracting/statistic step, which has complexity $O(n \times B)$. 
+
+
+
+```{r echo=FALSE}
+algos <- c("bootstrap_base", "bootstrap_package")
+O_n_python_1 <- O_n*python[python$Algorithm == algos[1],]$Time[3]
+O_n_R_1 <- O_n*R[R$Algorithm == algos[1],]$Time[3]
+O_n_python_2 <- O_n*python[python$Algorithm == algos[2],]$Time[3]
+O_n_R_2 <- O_n*R[R$Algorithm == algos[2],]$Time[3]
+plot_ly() %>%
+  add_trace(data = R[R$Algorithm == algos[1],], x = ~log(n, 10), y = ~Time, 
+            type = 'scatter', mode = 'lines+markers', name = 'bootstrap_scratch R',
+            line = list(color = "blue", dash = 'solid'),
+            marker = list(color = "blue", symbol = 'circle')) %>%
+  add_trace(data = R[R$Algorithm == algos[2],], x = ~log(n, 10), y = ~Time, 
+            type = 'scatter', mode = 'lines+markers', name = 'bootstrap_boot R',
+            line = list(color = "blue", dash = 'dashdot'),
+            marker = list(color = "blue", symbol = 'square')) %>%
+  add_trace(data = python[python$Algorithm == algos[1],], x = ~log(n, 10), y = ~Time, 
+            type = 'scatter', mode = 'lines+markers', name = 'bootstrap_scratch Python',
+            line = list(color = "red", dash = 'solid'),
+            marker = list(color = "red", symbol = 'dot')) %>%
+  add_trace(data = python[python$Algorithm == algos[2],], x = ~log(n, 10), y = ~Time, 
+            type = 'scatter', mode = 'lines+markers', name = 'bootstrap_scipy Python',
+            line = list(color = "red", dash = 'dashdot'),
+            marker = list(color = "red", symbol = 'square')) %>%
+  add_trace(x = n_values, y = O_n_R_1, type = 'scatter', mode = 'lines',
+            name = 'O(n)', line = list(color = 'black', dash = 'dash')) %>%
+  layout(title = "Execution Time",
+         xaxis = list(title = "log(n)", tickmode = "array", tickvals = 0:6, ticktext = as.character(0:6)),
+         yaxis = list(title = "Time (s)"),
+         legend = list(title = "Legend", orientation = "h", x = 0.3, y = -0.2))
+plot_ly() %>%
+  add_trace(data = R[R$Algorithm == algos[1],], x = ~log(n, 10), y = ~Memory, 
+            type = 'scatter', mode = 'lines+markers', name = 'bootstrap_scratch R',
+            line = list(color = "blue", dash = 'solid'),
+            marker = list(color = "blue", symbol = 'circle')) %>%
+  add_trace(data = R[R$Algorithm == algos[2],], x = ~log(n, 10), y = ~Memory, 
+            type = 'scatter', mode = 'lines+markers', name = 'bootstrap_boot R',
+            line = list(color = "blue", dash = 'dashdot'),
+            marker = list(color = "blue", symbol = 'square')) %>%
+  add_trace(data = python[python$Algorithm == algos[1],], x = ~log(n, 10), y = ~Memory, 
+            type = 'scatter', mode = 'lines+markers', name = 'bootstrap_scratch Python',
+            line = list(color = "red", dash = 'solid'),
+            marker = list(color = "red", symbol = 'dot')) %>%
+  add_trace(data = python[python$Algorithm == algos[2],], x = ~log(n, 10), y = ~Memory, 
+            type = 'scatter', mode = 'lines+markers', name = 'bootstrap_scipy Python',
+            line = list(color = "red", dash = 'dashdot'),
+            marker = list(color = "red", symbol = 'square')) %>%
+  layout(title = "Memory usage",
+         xaxis = list(title = "log(n)", tickmode = "array", tickvals = 0:6, ticktext = as.character(0:6)),
+         yaxis = list(title = "Memory (MiB)"),
+         legend = list(title = "Legend", orientation = "h", x = 0.3, y = -0.2))
+```
+
+
+## Markov chain Monte Carlo
+I expect the computational complexity to be $\mathcal{O}(n)$.
+
+```plaintext
+Function metropolis_hastings(X, y, B, beta_0, proposal_sd, sigma)
+    // Augment X with a column 1 to include an intercept
+    X_b <- concatenate column of ones to X
+    
+    // Initialize parameters
+    current_beta <- beta_0
+    samples <- current_beta
+    
+    // Compute initial values for likelihood and prior
+    Xb <- X_b dot current_beta
+    current_likelihood <- sum(log(N(y|Xb,sigma))
+    current_prior <- sum(log(N(current_beta|mu0,sigma0)))
+    
+    // Sampling
+    For i from 1 to B
+        proposed_beta <- sample N(current_beta,proposal_sd)
+        Xb_proposed <- X_b dot proposed_beta
+        proposed_likelihood <- sum(log(N(y|Xb_proposed,sigma))
+        proposed_prior <- sum(log(N(proposed_beta|mu0,sigma0)))
+        
+        // Compute acceptance probability
+        p_accept <- exp(proposed_likelihood + proposed_prior - current_likelihood - current_prior)
+        
+        // Accept/reject new beta
+        U <- sample Unif(0,1)
+        If U < p_accept
+            current_beta <- proposed_beta
+            current_likelihood <- proposed_likelihood
+            current_prior <- proposed_prior
+        
+        Append current_beta to samples
+    
+    Return samples
+End Function
+```
+
+Augmenting the matrix is $O(n)$, the matrix dot products from linear regression is $O(np)$, computing the log-likelihood is $O(n)$ and computing the prior is $O(p)$. Therefore, running the loop for B iterations has complexity $O(n \times p \times B)$.
+
+
+```{r echo=FALSE}
+algos <- c("Metropolis_Hastings", "MCMC_stan")
+O_n_python_1 <- O_n*python[python$Algorithm == algos[1],]$Time[3]
+O_n_R_1 <- O_n*R[R$Algorithm == algos[1],]$Time[3]
+O_n_python_2 <- O_n*python[python$Algorithm == algos[2],]$Time[3]
+O_n_R_2 <- O_n*R[R$Algorithm == algos[2],]$Time[3]
+plot_ly() %>%
+  add_trace(data = R[R$Algorithm == algos[1],], x = ~log(n, 10), y = ~Time, 
+            type = 'scatter', mode = 'lines+markers', name = 'Metropolis_Hastings R',
+            line = list(color = "blue", dash = 'solid'),
+            marker = list(color = "blue", symbol = 'circle')) %>%
+  add_trace(data = R[R$Algorithm == algos[2],], x = ~log(n, 10), y = ~Time, 
+            type = 'scatter', mode = 'lines+markers', name = 'MCMC_stan R',
+            line = list(color = "blue", dash = 'dashdot'),
+            marker = list(color = "blue", symbol = 'square')) %>%
+  add_trace(data = python[python$Algorithm == algos[1],], x = ~log(n, 10), y = ~Time, 
+            type = 'scatter', mode = 'lines+markers', name = 'Metropolis_Hastings Python',
+            line = list(color = "red", dash = 'solid'),
+            marker = list(color = "red", symbol = 'dot')) %>%
+  add_trace(data = python[python$Algorithm == algos[2],], x = ~log(n, 10), y = ~Time, 
+            type = 'scatter', mode = 'lines+markers', name = 'MCMC_stan Python',
+            line = list(color = "red", dash = 'dashdot'),
+            marker = list(color = "red", symbol = 'square')) %>%
+  add_trace(x = n_values, y = O_n_R_1, type = 'scatter', mode = 'lines',
+            name = 'O(n)', line = list(color = 'black', dash = 'dash')) %>%
+  add_trace(x = n_values, y = O_n_python_1, type = 'scatter', mode = 'lines',
+            name = 'O(n)', line = list(color = 'black', dash = 'dash'), showlegend = FALSE) %>%
+  # add_trace(x = n_values, y = O_n_R_2, type = 'scatter', mode = 'lines',
+  #           name = 'O(n)', line = list(color = 'black', dash = 'dash'), showlegend = FALSE) %>%
+  # add_trace(x = n_values, y = O_n_python_2, type = 'scatter', mode = 'lines',
+  #           name = 'O(n)', line = list(color = 'black', dash = 'dash'), showlegend = FALSE) %>%
+  layout(title = "Execution Time",
+         xaxis = list(title = "log(n)", tickmode = "array", tickvals = 0:6, ticktext = as.character(0:6)),
+         yaxis = list(title = "Time (s)"),
+         legend = list(title = "Legend", orientation = "h", x = 0.3, y = -0.2))
+plot_ly() %>%
+  add_trace(data = R[R$Algorithm == algos[1],], x = ~log(n, 10), y = ~Memory, 
+            type = 'scatter', mode = 'lines+markers', name = 'Metropolis_Hastings R',
+            line = list(color = "blue", dash = 'solid'),
+            marker = list(color = "blue", symbol = 'circle')) %>%
+  add_trace(data = R[R$Algorithm == algos[2],], x = ~log(n, 10), y = ~Memory, 
+            type = 'scatter', mode = 'lines+markers', name = 'MCMC_stan R',
+            line = list(color = "blue", dash = 'dashdot'),
+            marker = list(color = "blue", symbol = 'square')) %>%
+  add_trace(data = python[python$Algorithm == algos[1],], x = ~log(n, 10), y = ~Memory, 
+            type = 'scatter', mode = 'lines+markers', name = 'Metropolis_Hastings Python',
+            line = list(color = "red", dash = 'solid'),
+            marker = list(color = "red", symbol = 'dot')) %>%
+  add_trace(data = python[python$Algorithm == algos[2],], x = ~log(n, 10), y = ~Memory, 
+            type = 'scatter', mode = 'lines+markers', name = 'MCMC_stan Python',
+            line = list(color = "red", dash = 'dashdot'),
+            marker = list(color = "red", symbol = 'square')) %>%
+  layout(title = "Memory usage",
+         xaxis = list(title = "log(n)", tickmode = "array", tickvals = 0:6, ticktext = as.character(0:6)),
+         yaxis = list(title = "Memory (MiB)"),
+         legend = list(title = "Legend", orientation = "h", x = 0.3, y = -0.2))
+```
+
+## Support vector machine
+
+I won't say much about this because I don't know machine learning but my understanding of the algorithm using a simplified form of gradient descent is as follows.
+
+```plaintext
+Function svm(X, y, epochs, learning_rate, C)
+    // Initialize parameters
+    Initialize weight vector w to 0
+    Initialize bias b to 0
+    
+    For each epoch from 1 to epochs
+        For each sample i from 1 to length of y
+            Compute decision_value = X[i] dot (w + b)
+            
+            // Check if data is on the correct side of the margin
+            If y[i] * decision_value < 1 then
+                // Update w and b for incorrectly classified samples
+                Update w = w + learning_rate * (y[i] * X[i] - 2 * (1/C) * w)
+                Update b = b + learning_rate * y[i]
+            Else
+                // Apply only the regularization update if sample is classified correctly
+                Update w = w - learning_rate * (2 * (1/C) * w)
+            
+    Return w, b
+End Function
+```
+
+The initializations are $O(p)$ and $O(1)$, the outer loop runs for epochs iterations and the inner loop runs for $n$ interations, the product X[i] dot C is $O(p)$, so the overall complexity is $O(\text{epochs} \times n \times p)$.
+
+```{r echo=FALSE}
+algos <- c("svm_base", "svm_package")
+O_n_python_1 <- O_n*python[python$Algorithm == algos[1],]$Time[3]
+O_n_R_1 <- O_n*R[R$Algorithm == algos[1],]$Time[3]
+O_n_python_2 <- O_n*python[python$Algorithm == algos[2],]$Time[3]
+O_n_R_2 <- O_n*R[R$Algorithm == algos[2],]$Time[3]
+plot_ly() %>%
+  add_trace(data = R[R$Algorithm == algos[1],], x = ~log(n, 10), y = ~Time, 
+            type = 'scatter', mode = 'lines+markers', name = 'SVM_scratch R',
+            line = list(color = "blue", dash = 'solid'),
+            marker = list(color = "blue", symbol = 'circle')) %>%
+  add_trace(data = R[R$Algorithm == algos[2],], x = ~log(n, 10), y = ~Time, 
+            type = 'scatter', mode = 'lines+markers', name = 'SVM_e1071 R',
+            line = list(color = "blue", dash = 'dashdot'),
+            marker = list(color = "blue", symbol = 'square')) %>%
+  add_trace(data = python[python$Algorithm == algos[1],], x = ~log(n, 10), y = ~Time, 
+            type = 'scatter', mode = 'lines+markers', name = 'SVM_scratch Python',
+            line = list(color = "red", dash = 'solid'),
+            marker = list(color = "red", symbol = 'dot')) %>%
+  add_trace(data = python[python$Algorithm == algos[2],], x = ~log(n, 10), y = ~Time, 
+            type = 'scatter', mode = 'lines+markers', name = 'SVM_sklearn Python',
+            line = list(color = "red", dash = 'dashdot'),
+            marker = list(color = "red", symbol = 'square')) %>%
+  add_trace(x = n_values, y = O_n_R_1, type = 'scatter', mode = 'lines',
+            name = 'O(n)', line = list(color = 'black', dash = 'dash')) %>%
+  layout(title = "Execution Time",
+         xaxis = list(title = "log(n)", tickmode = "array", tickvals = 0:6, ticktext = as.character(0:6)),
+         yaxis = list(title = "Time (s)"),
+         legend = list(title = "Legend", orientation = "h", x = 0.3, y = -0.2))
+plot_ly() %>%
+  add_trace(data = R[R$Algorithm == algos[1],], x = ~log(n, 10), y = ~Memory, 
+            type = 'scatter', mode = 'lines+markers', name = 'SVM_scratch R',
+            line = list(color = "blue", dash = 'solid'),
+            marker = list(color = "blue", symbol = 'circle')) %>%
+  add_trace(data = R[R$Algorithm == algos[2],], x = ~log(n, 10), y = ~Memory, 
+            type = 'scatter', mode = 'lines+markers', name = 'SVM_e1071 R',
+            line = list(color = "blue", dash = 'dashdot'),
+            marker = list(color = "blue", symbol = 'square')) %>%
+  add_trace(data = python[python$Algorithm == algos[1],], x = ~log(n, 10), y = ~Memory, 
+            type = 'scatter', mode = 'lines+markers', name = 'SVM_scratch Python',
+            line = list(color = "red", dash = 'solid'),
+            marker = list(color = "red", symbol = 'dot')) %>%
+  add_trace(data = python[python$Algorithm == algos[2],], x = ~log(n, 10), y = ~Memory, 
+            type = 'scatter', mode = 'lines+markers', name = 'SVM_sklearn Python',
+            line = list(color = "red", dash = 'dashdot'),
+            marker = list(color = "red", symbol = 'square')) %>%
+  layout(title = "Memory usage",
+         xaxis = list(title = "log(n)", tickmode = "array", tickvals = 0:6, ticktext = as.character(0:6)),
+         yaxis = list(title = "Memory (MiB)"),
+         legend = list(title = "Legend", orientation = "h", x = 0.3, y = -0.2))
+```
+
+
+9 min
+126min
+
+and
+
 # Discussion
+
+#### Loops
+
+“For-loops are not idiomatic R code” is something I have heard many times. In trivial cases or fast prototyping, for-loops are fantastic yet I have always converted them into base::apply functions, or pbapply::pbapply for progress bars or even parallel::parApply for parallel computation afterwards.
+
 
 #### Speed depending on the machine
 
-#### What does memory usage really mean and how can we measure it?
+#### Processor time vs. clock time
+Ultimately, I care more about clock time but maybe for production code it is total processing time from parellel servers that counts.
 
-#### Other considerations than speed and memory
+
+#### What does Time usage really mean and how can we measure it?
+
+#### Estimating uncertainty within and across datasets and across methods
+
+
+#### Other considerations than speed and Time
+
+#### My experience using both Python and R
+It was difficult to simulate the data and store in a manner that can be easily read in both Python and R. If I was just using R I would use a .rds file with an absurd object containing all the data in one object easily imported, but to be read in Python I had to save the data in several .csv files which were read with an awkward structure in Python including an infamous errors='coerce' line. I don't really understand what it does but it solved the problem that my file included both strings and numerics, though I only care about analyzing the numerics. This is my own fault because I don't know Python well, but R makes it (dangerously) easy to use different objects without thinking about structure too much. For the purpose of this project, I didn't really care much about importing the data smoothly as long as it got done since I was focused on making the algorithms comparable. An interesting aspect that I didn't test was the speed of reading data, which I clearly don't know enough about to test fairly, but it can be a major consideration for large datasets which can need clusters of CPUs to load.
+
 
 #### My experience using interactive visualization and a website
+Plotting is much easier and better supported in ggplot, but I used plotly to make these interactive plots.
+I don't really like them for conveying information, as I think they ultimately distract the reader from the information, but it attracts attention and is interesting for a blog post format like this. I could not imagine using them in a paper.
+
+
+#### Usage in industry and academia
+
+#### Probabilistic programing and bayesian statistcs
+
+Comparing MCMC samplers:
+https://statmodeling.stat.columbia.edu/2024/04/27/evaluating-mcmc-samplers/
+
 
 # References
+
+
+
+```{r eval=FALSE, echo=FALSE}
+library(plotly)
+R <- read.csv("/Users/ancavanciupopescu/Desktop/Classes/CS 32/Final project/Results/Results_R.csv")
+python <- read.csv("/Users/ancavanciupopescu/Desktop/Classes/CS 32/Final project/Results/Results_python.csv")
+merged_data <- merge(R, python, by=c("Algorithm", "n"), suffixes = c("R", "python"))
+algorithm_names <- c('loop_sum','loop_geom_mean', 'vectorized_geom_mean', 'matrix_multiplication', 
+                 'matrix_inversion', 'linear_regression_package', 'linear_regression_base', 
+                 'bootstrap_package', 'bootstrap_base', 'svm_package', 'svm_base', 
+                 'Metropolis_Hastings', 'MCMC_stan')
+
+# Create plots for execution time
+plot_time_list <- list()
+for (alg in algorithm_names) {
+  alg_R <- subset(R, Algorithm == alg)
+  alg_Python <- subset(python, Algorithm == alg)
+
+  p <- plot_ly() %>%
+    add_trace(data = alg_R, x = ~ log(n, 10), y = ~Memory, type = 'scatter', mode = 'lines+markers',
+              name = 'R', line = list(color = 'blue')) %>%
+    add_trace(data = alg_Python, x = ~ log(n, 10), y = ~Memory, type = 'scatter', mode = 'lines+markers',
+              name = 'Python', line = list(color = 'orange')) %>%
+    layout(title = paste("Execution time for", alg),
+           xaxis = list(title = "log(n)", tickmode = "array", tickvals = 0:6, ticktext = as.character(0:6)),
+           yaxis = list(title = "Time (s)"),
+           legend = list(x = 0.1, y = 0.9))
+
+  plot_time_list[[alg]] <- p
+}
+
+# Create plots for Time usage
+plot_Time_list <- list()
+for (alg in algorithm_names) {
+  alg_R <- subset(R, Algorithm == alg)
+  alg_Python <- subset(python, Algorithm == alg)
+
+  p <- plot_ly() %>%
+    add_trace(data = alg_R, x = ~ log(n, 10), y = ~Memory, type = 'scatter', mode = 'lines+markers',
+              name = 'R', line = list(color = 'blue', dash = 'solid')) %>%
+    add_trace(data = alg_Python, x = ~ log(n, 10), y = ~Memory, type = 'scatter', mode = 'lines+markers',
+              name = 'Python', line = list(color = 'orange', dash = 'dashdot')) %>%
+    layout(title = paste("Time usage for", alg),
+           xaxis = list(title = "log(n)", tickmode = "array", tickvals = 0:6, ticktext = as.character(0:6)),
+           yaxis = list(title = "Time (MiB)"),
+           legend = list(x = 0.1, y = 0.9))
+
+  plot_Time_list[[alg]] <- p
+}
+
+for (variable in vector) {
+  
+}
+# Print plots for loop_sum
+for (algo in algorithm_names) {
+  print(plot_time_list[[algo]])
+}
+```
 
 
