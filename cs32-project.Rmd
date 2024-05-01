@@ -220,7 +220,7 @@ plot_ly() %>%
             marker = list(color = "red", symbol = 'dot')) %>%
   layout(title = "Memory Usage",
          xaxis = list(title = "log(n)", tickmode = "array", tickvals = 0:6, ticktext = as.character(0:6)),
-         yaxis = list(title = "Memory (MiB)"),
+         yaxis = list(title = "Memory (MB)"),
          legend = list(title = "Legend", orientation = "h", x = 0.3, y = -0.2))
 ```
 
@@ -296,7 +296,7 @@ plot_ly() %>%
             marker = list(color = "red", symbol = 'square')) %>%
   layout(title = "Memory usage",
          xaxis = list(title = "log(n)", tickmode = "array", tickvals = 0:6, ticktext = as.character(0:6)),
-         yaxis = list(title = "Memory (MiB)"),
+         yaxis = list(title = "Memory (MB)"),
          legend = list(title = "Legend", orientation = "h", x = 0.3, y = -0.2))
 ```
 
@@ -471,7 +471,7 @@ plot_ly() %>%
             marker = list(color = "red", symbol = 'square')) %>%
   layout(title = "Memory usage",
          xaxis = list(title = "log(n)", tickmode = "array", tickvals = 0:6, ticktext = as.character(0:6)),
-         yaxis = list(title = "Memory (MiB)"),
+         yaxis = list(title = "Memory (MB)"),
          legend = list(title = "Legend", orientation = "h", x = 0.3, y = -0.2))
 ```
 
@@ -595,7 +595,7 @@ plot_ly() %>%
             name = 'O(n)', line = list(color = 'black', dash = 'dash')) %>%
   layout(title = "Memory usage",
          xaxis = list(title = "log(n)", tickmode = "array", tickvals = 0:6, ticktext = as.character(0:6)),
-         yaxis = list(title = "Memory (MiB)"),
+         yaxis = list(title = "Memory (MB)"),
          legend = list(title = "Legend", orientation = "h", x = 0.3, y = -0.2))
 ```
 
@@ -727,7 +727,7 @@ plot_ly() %>%
             marker = list(color = "red", symbol = 'square')) %>%
   layout(title = "Memory usage",
          xaxis = list(title = "log(B)", tickmode = "array", tickvals = 0:6, ticktext = as.character(0:6)),
-         yaxis = list(title = "Memory (MiB)"),
+         yaxis = list(title = "Memory (MB)"),
          legend = list(title = "Legend", orientation = "h", x = 0.3, y = -0.2))
 ```
 
@@ -928,12 +928,12 @@ plot_ly() %>%
             marker = list(color = "red", symbol = 'square')) %>%
   layout(title = "Memory usage",
          xaxis = list(title = "log(B)", tickmode = "array", tickvals = 0:6, ticktext = as.character(0:6)),
-         yaxis = list(title = "Memory (MiB)"),
+         yaxis = list(title = "Memory (MB)"),
          legend = list(title = "Legend", orientation = "h", x = 0.3, y = -0.2))
 ```
 
 
-Both Python and R's execution times for Metropolis-Hastings seem to scale linearly with time as expected from the theoretical complexity, and R generally seems to be faster than Python particularly for a large number iterations at $B=10^5$. In this simple case of linear regression, running $10^5$ iterations is definitely uncessary and convergence was achieved way before but this may be needed for very complex models. Stan's execution time is very similar in both interfaces and it seems to scale even better than linearly for large number of iterations. Since Stan has much lower autocorrelation in the chains than Metroplis-Hastings, Stan actually has much higher effective sample size which makes it performance quite impressive, and $10^5$ iterations is typically more than necessary in Stan. We also see that memory usage blows up in R with 3GB of memory used for $10^5$ iterations, but it stays surprisingly low below 100MiB in Python.
+Both Python and R's execution times for Metropolis-Hastings seem to scale linearly with time as expected from the theoretical complexity, and R generally seems to be faster than Python particularly for a large number iterations at $B=10^5$. In this simple case of linear regression, running $10^5$ iterations is definitely uncessary and convergence was achieved way before but this may be needed for very complex models. Stan's execution time is very similar in both interfaces and it seems to scale even better than linearly for large number of iterations. Since Stan has much lower autocorrelation in the chains than Metroplis-Hastings, Stan actually has much higher effective sample size which makes it performance quite impressive, and $10^5$ iterations is typically more than necessary in Stan. We also see that memory usage blows up in R with 3GB of memory used for $10^5$ iterations, but it stays surprisingly low below 100MB in Python.
 
 
 
@@ -1074,7 +1074,7 @@ plot_ly() %>%
             marker = list(color = "red", symbol = 'square')) %>%
   layout(title = "Memory usage",
          xaxis = list(title = "log(n)", tickmode = "array", tickvals = 0:6, ticktext = as.character(0:6)),
-         yaxis = list(title = "Memory (MiB)"),
+         yaxis = list(title = "Memory (MB)"),
          legend = list(title = "Legend", orientation = "h", x = 0.3, y = -0.2))
 ```
 
