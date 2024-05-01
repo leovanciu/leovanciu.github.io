@@ -171,8 +171,8 @@ I include below the code used to generate interactive plots of execution time an
 ```{r,message=FALSE}
 library(plotly)
 # Read data
-R <- read.csv("/Users/ancavanciupopescu/Desktop/Classes/CS 32/Final project/Results/Results_R.csv")
-python <- read.csv("/Users/ancavanciupopescu/Desktop/Classes/CS 32/Final project/Results/Results_python.csv")
+R <- read.csv("Results/Results_R.csv")
+python <- read.csv("Results/Results_python.csv")
 merged_data <- merge(R, python, by=c("Algorithm", "n"), suffixes = c("R", "python"))
 algorithm_names <- c('loop_sum','loop_geom_mean', 'vectorized_geom_mean', 'matrix_multiplication', 
                  'matrix_inversion', 'linear_regression_package', 'linear_regression_base', 
